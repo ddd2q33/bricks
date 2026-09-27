@@ -6,6 +6,7 @@ import { AppHeader } from "@/components/app-header"
 import { AppSidebar } from "@/components/app-sidebar"
 import { ContentProvider, useContent } from "@/components/content-store"
 import { PostSheet } from "@/components/post-sheet"
+import { ScheduleImportDialog } from "@/components/schedule-import-dialog"
 import { StatsCards } from "@/components/stats-cards"
 import { UpcomingPanel } from "@/components/upcoming-panel"
 import { WeekCalendar } from "@/components/week-calendar"
@@ -17,6 +18,7 @@ function DashboardView() {
   const { now, getPost } = useContent()
   const [weekStart, setWeekStart] = React.useState(() => startOfWeek(now))
   const [sheetOpen, setSheetOpen] = React.useState(false)
+  const [importOpen, setImportOpen] = React.useState(false)
   const [editing, setEditing] = React.useState<Post | null>(null)
   const [fallbackDate, setFallbackDate] = React.useState(() => atTime(now, 9))
   const [formKey, setFormKey] = React.useState(0)
@@ -44,7 +46,10 @@ function DashboardView() {
     <>
       <AppSidebar />
       <SidebarInset>
-        <AppHeader onCreate={() => openCreate()} />
+        <AppHeader
+          onCreate={() => openCreate()}
+          onImport={() => setImportOpen(true)}
+        />
         <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
           <StatsCards />
           <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
@@ -66,6 +71,8 @@ function DashboardView() {
         formKey={formKey}
         onOpenChange={setSheetOpen}
       />
+
+      <ScheduleImportDialog open={importOpen} onOpenChange={setImportOpen} />
     </>
   )
 }

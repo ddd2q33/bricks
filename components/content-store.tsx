@@ -17,6 +17,7 @@ type ContentContextValue = {
   setStatus: (status: PostStatus | "all") => void
   setChannel: (channel: Channel | "all") => void
   createPost: (draft: Draft) => void
+  importPosts: (drafts: Draft[]) => number
   updatePost: (id: string, patch: Partial<Draft>) => void
   deletePost: (id: string) => void
   getPost: (id: string) => Post | undefined
@@ -46,10 +47,31 @@ export function ContentProvider({
   const [query, setQuery] = React.useState("")
   const [status, setStatus] = React.useState<PostStatus | "all">("all")
   const [channel, setChannel] = React.useState<Channel | "all">("all")
+  const sequence = React.useRef(0)
 
-  const createPost = React.useCallback((draft: Draft) => {
-    setPosts((current) => [...current, { ...draft, id: `post-${Date.now()}` }])
+  const nextId = React.useCallback(() => {
+    sequence.current += 1
+    return `post-${Date.now().toString(36)}-${sequence.current.toString(36)}`
   }, [])
+
+  const createPost = React.useCallback(
+    (draft: Draft) => {
+      setPosts((current) => [...current, { ...draft, id: nextId() }])
+    },
+    [nextId],
+  )
+
+  const importPosts = React.useCallback(
+    (drafts: Draft[]) => {
+      setPosts((current) => [
+        ...current,
+        ...drafts.map((draft) => ({ ...draft, id: nextId() })),
+      ])
+      return drafts.length
+    },
+    [nextId],
+  )
+
 
   const updatePost = React.useCallback((id: string, patch: Partial<Draft>) => {
     setPosts((current) =>
@@ -88,6 +110,7 @@ export function ContentProvider({
       setStatus,
       setChannel,
       createPost,
+      importPosts,
       updatePost,
       deletePost,
       getPost,
@@ -100,6 +123,7 @@ export function ContentProvider({
       status,
       channel,
       createPost,
+      importPosts,
       updatePost,
       deletePost,
       getPost,
@@ -113,7 +137,7 @@ export function ContentProvider({
 export function useContent() {
   const context = React.useContext(ContentContext)
   if (!context) {
-    throw new Error("useContent debe usarse dentro de <ContentProvider>")
+    throw new Error("useContent must be used inside <ContentProvider>")
   }
   return context
 }

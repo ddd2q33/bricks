@@ -3,6 +3,7 @@
 import * as React from "react"
 import { Trash } from "lucide-react"
 
+import { ChannelIcon } from "@/components/content-badges"
 import { useContent } from "@/components/content-store"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -148,6 +149,7 @@ function PostForm({
               <SelectContent>
                 {CHANNELS.map((channel) => (
                   <SelectItem key={channel} value={channel}>
+                    <ChannelIcon channel={channel} className="size-5 rounded-[5px]" />
                     {CHANNEL_META[channel].label}
                   </SelectItem>
                 ))}

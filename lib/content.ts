@@ -1,12 +1,13 @@
+import type { IconType } from "react-icons"
 import {
-  AtSign,
-  Briefcase,
-  Camera,
-  FileText,
-  Music2,
-  Play,
-  type LucideIcon,
-} from "lucide-react"
+  FaInstagram,
+  FaLinkedinIn,
+  FaNewspaper,
+  FaPinterestP,
+  FaTiktok,
+  FaXTwitter,
+  FaYoutube,
+} from "react-icons/fa6"
 
 export const CHANNELS = [
   "instagram",
@@ -14,6 +15,7 @@ export const CHANNELS = [
   "linkedin",
   "x",
   "youtube",
+  "pinterest",
   "blog",
 ] as const
 
@@ -56,48 +58,61 @@ export const MEMBERS: Member[] = [
 
 export const CHANNEL_META: Record<
   Channel,
-  { label: string; short: string; handle: string; icon: LucideIcon; className: string }
+  {
+    label: string
+    short: string
+    handle: string
+    icon: IconType
+    className: string
+  }
 > = {
   instagram: {
     label: "Instagram",
     short: "IG",
     handle: "@bricks.studio",
-    icon: Camera,
+    icon: FaInstagram,
     className: "bg-pink-500/10 text-pink-600 dark:text-pink-400",
   },
   tiktok: {
     label: "TikTok",
     short: "TT",
     handle: "@bricks.studio",
-    icon: Music2,
+    icon: FaTiktok,
     className: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-400",
   },
   linkedin: {
     label: "LinkedIn",
     short: "IN",
     handle: "Bricks Studio",
-    icon: Briefcase,
+    icon: FaLinkedinIn,
     className: "bg-sky-500/10 text-sky-700 dark:text-sky-400",
   },
   x: {
     label: "X",
     short: "X",
     handle: "@brickshq",
-    icon: AtSign,
+    icon: FaXTwitter,
     className: "bg-zinc-500/10 text-zinc-700 dark:text-zinc-300",
   },
   youtube: {
     label: "YouTube",
     short: "YT",
     handle: "@bricksstudio",
-    icon: Play,
+    icon: FaYoutube,
     className: "bg-red-500/10 text-red-600 dark:text-red-400",
+  },
+  pinterest: {
+    label: "Pinterest",
+    short: "PT",
+    handle: "@bricksstudio",
+    icon: FaPinterestP,
+    className: "bg-rose-600/10 text-rose-700 dark:text-rose-400",
   },
   blog: {
     label: "Blog",
     short: "BL",
     handle: "bricks.co/blog",
-    icon: FileText,
+    icon: FaNewspaper,
     className: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
   },
 }

@@ -1,8 +1,9 @@
 "use client"
 
-import { Bell, Plus, Search, X } from "lucide-react"
+import { Bell, Plus, Search, Upload, X } from "lucide-react"
 
 import { Brand } from "@/components/brand"
+import { ChannelIcon } from "@/components/content-badges"
 import { useContent } from "@/components/content-store"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -18,7 +19,13 @@ import {
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { CHANNELS, CHANNEL_META, MEMBERS, POST_STATUSES, STATUS_META } from "@/lib/content"
 
-export function AppHeader({ onCreate }: { onCreate: () => void }) {
+export function AppHeader({
+  onCreate,
+  onImport,
+}: {
+  onCreate: () => void
+  onImport: () => void
+}) {
   const { query, setQuery, status, setStatus, channel, setChannel } = useContent()
 
   return (
@@ -75,6 +82,7 @@ export function AppHeader({ onCreate }: { onCreate: () => void }) {
             <SelectItem value="all">All channels</SelectItem>
             {CHANNELS.map((value) => (
               <SelectItem key={value} value={value}>
+                <ChannelIcon channel={value} className="size-5 rounded-[5px]" />
                 {CHANNEL_META[value].label}
               </SelectItem>
             ))}
@@ -85,7 +93,7 @@ export function AppHeader({ onCreate }: { onCreate: () => void }) {
           variant="outline"
           size="icon-lg"
           className="relative"
-          aria-label="Notificaciones"
+          aria-label="Notifications"
         >
           <Bell className="size-4" />
           <Badge
@@ -94,6 +102,11 @@ export function AppHeader({ onCreate }: { onCreate: () => void }) {
           >
             3
           </Badge>
+        </Button>
+
+        <Button variant="outline" size="sm" className="h-9" onClick={onImport}>
+          <Upload className="size-4" />
+          <span className="hidden sm:inline">Import</span>
         </Button>
 
         <Button size="sm" className="h-9" onClick={onCreate}>
